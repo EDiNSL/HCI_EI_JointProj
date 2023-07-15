@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Firewall Warning</title>
+</head>
+<body>
+    <h1>Firewall Warning</h1>
+    <p>This website may be harmful. Please turn on the firewall before proceeding. If the website is indeed harmful, your firewall will block it. Note that you have to proceed to finish inspecting this link. If you choose not to proceed, you will receive a point penalty, and your task will be considered incomplete.</p>
+    <h2>Have you turned on the firewall?</h2>
+    <button onclick="proceedWithFirewall(true)">Yes</button>
+    <button onclick="proceedWithFirewall(false)">No</button>
+    <h2>Do you want to proceed?</h2>
+    <button onclick="proceed(true)">Yes</button>
+    <button onclick="proceed(false)">No</button>
+    <h2>Suspicious Index: <span id="suspiciousIndex"></span></h2>
+
+    <script>
+        // Retrieve the suspiciousIndex from localStorage
+        var firewallSwitch = false;
+        var suspiciousIndex = localStorage.getItem("suspiciousIndex");
+
+        // Display the suspiciousIndex on the page
+        var suspiciousIndexElement = document.getElementById("suspiciousIndex");
+        suspiciousIndexElement.textContent = suspiciousIndex;
+        
+        function proceedWithFirewall(answer) {
+            if (answer) {
+                // Code to handle when the user has turned on the firewall
+                alert("You have turned on the firewall.");
+                firewallSwitch = true;
+            } else {
+                // Code to handle when the user hasn't turned on the firewall
+                alert("Please turn on the firewall before proceeding.");
+                firewallSwitch = false;
+            }
+        }
+
+        function proceed(answer) {
+            if (answer && firewallSwitch) {
+                // Code to handle when the user wants to proceed
+                alert("Proceeding...");
+                window.location.replace("firewall_blocked.html")
+            } else if (answer){
+                //alert("Proceeding WITHOUT FIREWALL");
+            } else {
+                // Code to handle when the user doesn't want to proceed
+                alert("You have chosen not to proceed. Point penalty incurred. Task considered incomplete.");
+                var linkClicks = JSON.parse(localStorage.getItem("linkClicks"));
+                linkClicks[suspiciousIndex] = -1;
+                localStorage.setItem("linkClicks", JSON.stringify(linkClicks));
+                window.close()
+            }
+        }
+    </script>
+</body>
+</html>

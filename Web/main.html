@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Yeetus</title>
+  <style>
+    .link {
+      color: blue;
+      text-decoration: none;
+    }
+
+    .indicator {
+      margin-left: 10px;
+    }
+  </style>
+  <script>
+    var firewall_warning = "subpage/firewall_warning.html";
+    window.addEventListener("load", function() {
+      var websiteData = [
+        firewall_warning,
+        firewall_warning,
+        firewall_warning,
+        firewall_warning,
+        firewall_warning,
+        "https://www.microsoft.com/surface",
+        "https://www.microsoft.com/windows",
+        "https://www.outlook.com",
+        "https://www.skype.com",
+        "https://github.com"
+      ];
+
+      var linksContainer = document.getElementById("links-container");
+      var linkIndices = Array.from(Array(websiteData.length).keys());
+      while(websiteData[linkIndices[0]]==firewall_warning){
+        shuffleArray(linkIndices);
+      }
+      
+
+      var linkClicks = Array.from(Array(websiteData.length), function() {
+        return 0;
+      });
+
+      for (var i = 0; i < websiteData.length; i++) {
+        var listItem = document.createElement("li");
+        var link = document.createElement("a");
+        var indicator = document.createElement("span");
+        var index = linkIndices[i];
+        link.href = websiteData[index];
+        link.textContent = "Link " + (i + 1);
+        link.className = "link";
+        link.target = "_blank"; // Open link in a new window
+        listItem.appendChild(link);
+
+        indicator.className = "indicator";
+        listItem.appendChild(indicator);
+
+        linksContainer.appendChild(listItem);
+
+        link.addEventListener("mousedown", function(){
+            var clickedLinkIndex = Array.from(linksContainer.getElementsByClassName("link")).indexOf(this);
+            if(websiteData[linkIndices[clickedLinkIndex]]===firewall_warning){
+            localStorage.setItem("suspiciousIndex", clickedLinkIndex);
+          }
+        });
+
+        link.addEventListener("click", function() {
+          var clickedLinkIndex = Array.from(linksContainer.getElementsByClassName("link")).indexOf(this);
+          if(websiteData[linkIndices[clickedLinkIndex]]===firewall_warning){
+            
+          } else {
+            linkClicks = JSON.parse(localStorage.getItem("linkClicks"));
+            linkClicks[clickedLinkIndex] = 1;
+            localStorage.setItem("linkClicks", JSON.stringify(linkClicks));
+            updateIndicators();
+          }
+        });
+      }
+
+      // Retrieve linkClicks from localStorage and update indicators
+ 
+
+      localStorage.setItem("linkClicks", JSON.stringify(linkClicks));
+
+      // Listen for changes to linkClicks in localStorage
+      window.addEventListener("storage", function(event) {
+        if (event.key === "linkClicks") {
+          linkClicks = JSON.parse(event.newValue);
+          updateIndicators();
+        }
+      });
+
+      // Update indicators based on linkClicks array
+      function updateIndicators() {
+        var indicators = linksContainer.getElementsByClassName("indicator");
+        var count = 0;
+        var score = 0;
+        for (var i = 0; i < indicators.length; i++) {
+          if (linkClicks[i] === 1) {
+            indicators[i].textContent = "ticked";
+            score++;
+          } else if (linkClicks[i] === 2) {
+            indicators[i].textContent = "blocked";
+          } else if (linkClicks[i] === -1) {
+            indicators[i].textContent = "failed";
+            score--;
+          } else {
+            indicators[i].textContent = "";
+            count++;
+          }
+        }
+        if (count == 0){
+            document.getElementById("finishingMessage").innerHTML = "You have completed the inspetion!";
+            document.getElementById("score").innerHTML = "Your final score: " + score;
+        } else {
+            document.getElementById("score").innerHTML = "Your current score: " + score;
+        }
+      }
+    });
+
+    function shuffleArray(array) {
+      for (var i = array.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var temp = array[i];
+        array[i] = array[j];
+        array[j] = temp;
+      }
+    }
+  </script>
+</head>
+<body>
+  <h1>Content Link Inspection</h1>
+
+  <ul id="links-container">
+  </ul>
+  <h2 id = "score">Your current score: 0</h2>
+  <p id = "finishingMessage"></p>
+
+</body>
+</html>

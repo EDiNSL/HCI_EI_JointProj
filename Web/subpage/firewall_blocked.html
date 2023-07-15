@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Firewall has blocked a website</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding: 40px;
+    }
+    
+    h1 {
+      color: #ff0000;
+    }
+    
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #4CAF50;
+      color: #ffffff;
+      border: none;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Firewall has blocked a website</h1>
+  <p>This website has been blocked. You can return to the main page.</p>
+  <button onclick="exitFirewall()">Return to main page</button>
+  <script>
+    function exitFirewall(){
+        var suspiciousIndex = localStorage.getItem("suspiciousIndex");
+        var linkClicks = JSON.parse(localStorage.getItem("linkClicks"));
+        linkClicks[suspiciousIndex] = 2;
+        localStorage.setItem("linkClicks", JSON.stringify(linkClicks));
+        window.close()
+    }
+
+  </script>
+</body>
+</html>
