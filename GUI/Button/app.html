@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Round Red Button</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+  }
+  
+  .button-container {
+    position: relative;
+    width: 256px;
+    height: 256px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 48px;
+    border-style: outset;
+
+  }
+
+  #resetButton {
+    position: absolute;
+    top: 90%;
+    left: 80%;
+  }
+
+  
+  #toggleButton {
+    width: 100px;
+    height: 100px;
+    top: 50%;
+    left: 50%;
+    border-radius: 50%;
+    background-color: #cc0000;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 6px 10px 0 #666;
+    position:absolute;
+    translate: -50% -50%;
+  }
+  
+  #toggleButton.on {
+    background-color: #cc0000;
+  }
+  
+  #toggleButton.pressed {
+    background-color: #aa0000;
+    box-shadow: 0 6px 4px 0 #666;
+  }
+
+  #greenIndicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    position: absolute;
+    top: 48px;
+    left: 48px;
+    display: block;
+    border-style: outset;
+    border-color:#c4c4c4;
+  }
+  
+  #toggleButton.on + #greenIndicator {
+    display: block;
+    background-color: green;
+  }
+  
+  </style>
+</head>
+<body>
+  <div class="button-container">
+    <button id="toggleButton" class="off"></button>
+    <div id="greenIndicator" class="off"></div>
+    <button id="resetButton">Reset</button>
+  </div>
+
+  <script>
+
+const toggleButton = document.getElementById('toggleButton');
+
+let isOn = false;
+
+const resetButton = document.getElementById('resetButton');
+
+function resetFull(event){
+  isOn = false;
+  toggleButton.classList.toggle('on', isOn);
+}
+
+toggleButton.addEventListener('click', () => {
+  isOn = !isOn;
+  toggleButton.classList.toggle('on', isOn);
+});
+
+toggleButton.addEventListener('mousedown', () => {
+    toggleButton.classList.add('pressed');
+});
+
+toggleButton.addEventListener('mouseup', ()=>{
+    toggleButton.classList.remove('pressed');
+})
+
+resetButton.onclick = function(event){
+  resetFull();
+};
+
+
+
+  </script>
+</body>
+</html>

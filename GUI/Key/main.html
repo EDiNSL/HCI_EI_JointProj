@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spinning Image</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+    }
+    
+    #spinning-image {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      width: 200px; /* Adjust the size of the image as needed */
+      height: 200px;
+      border-radius: 50%;
+    }
+
+    #key {
+    position: absolute;
+    top: 50%;
+    left: 80%;
+    translate: -50% -50%;
+    z-index: 1;
+  }
+
+    #mask {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      translate: -100% -50%;
+      width: 100px; 
+      height: 200px;
+      z-index: 5;
+    }
+    #dialButton {
+      width: 50px;
+      height: 50px;
+      top: 50%;
+      left: 50%;
+      translate: -25px -175px;
+      transform-origin: 25px 175px;
+      transform: rotate(0deg);
+      border-radius: 50%;
+      background-color: #cc0000;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      border-radius: 50%;
+      box-shadow: 0 0 10px 0 #666;
+      position:absolute;
+      display: none;
+    }
+
+    #pie{
+      position:absolute;
+      top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+      display: none;
+    }
+
+    .button-container {
+    position: absolute;
+    top: 50%;
+      left: 50%;
+      translate: -50% -50%;
+    width: 256px;
+    height: 256px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 48px;
+    border-style: outset;
+
+  }
+
+  #greenIndicator {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: white;
+    position: absolute;
+    top: 48px;
+    left: 48px;
+    display: block;
+    border-style: outset;
+    border-color:#c4c4c4;
+  }
+
+  #resetButton {
+    position: absolute;
+    top: 90%;
+    left: 80%;
+  }
+
+  
+  </style>
+</head>
+<body>
+     <div id="pie" class="pie" data-pie='{ 
+      "size": 350,
+      "cut": 75,
+      "percent": 0,
+      "number": false,
+      "colorSlice": "#444444",
+      "animationOff": true,
+      "colorCircle": "#cccccc"
+      
+    }'></div>
+    <div class="button-container">
+      <div id="greenIndicator"></div>
+      <button id="resetButton">Reset</button>
+    </div>
+    <img id="spinning-image" src="keyhole-svgrepo-com.svg" alt="Spinning Image">
+    <img id="key" src="key.svg" alt="key">
+    <button id="dialButton" class="off"></button>
+    <img id="mask" src="keyhole_mask.svg" alt="mask">
+    <script src="circularProgressBar.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

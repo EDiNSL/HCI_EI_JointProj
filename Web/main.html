@@ -6,14 +6,32 @@
     .link {
       color: blue;
       text-decoration: none;
+      padding: ;
     }
 
     .indicator {
       margin-left: 10px;
     }
+
+    body {
+          font-family: Arial, sans-serif;
+          padding: 40px;
+        }
+    
+        h2 {
+          font-size: 16px;
+        }
   </style>
+  <script src = "FileSaver.js"></script>
   <script>
     var firewall_warning = "subpage/firewall_warning.html";
+
+
+    let d = new Date();
+    let startTime = d.getTime();
+
+    let order = 0;
+
     window.addEventListener("load", function() {
       var websiteData = [
         firewall_warning,
@@ -30,6 +48,9 @@
 
       var linksContainer = document.getElementById("links-container");
       var linkIndices = Array.from(Array(websiteData.length).keys());
+
+      
+
       while(websiteData[linkIndices[0]]==firewall_warning){
         shuffleArray(linkIndices);
       }
@@ -37,6 +58,14 @@
 
       var linkClicks = Array.from(Array(websiteData.length), function() {
         return 0;
+      });
+
+      var reactionTimeArray = Array.from(Array(websiteData.length), function() {
+        return 0;
+      });
+
+      var orderArray = Array.from(Array(websiteData.length), function() {
+        return -1;
       });
 
       for (var i = 0; i < websiteData.length; i++) {
@@ -72,13 +101,15 @@
             localStorage.setItem("linkClicks", JSON.stringify(linkClicks));
             updateIndicators();
           }
+          orderArray[clickedLinkIndex] = order;
+          order++;
+          localStorage.setItem("orderArray", JSON.stringify(orderArray));
         });
       }
 
-      // Retrieve linkClicks from localStorage and update indicators
- 
-
       localStorage.setItem("linkClicks", JSON.stringify(linkClicks));
+      localStorage.setItem("reactionTimeArray", JSON.stringify(reactionTimeArray));
+      localStorage.setItem("orderArray", JSON.stringify(orderArray));
 
       // Listen for changes to linkClicks in localStorage
       window.addEventListener("storage", function(event) {
@@ -95,21 +126,28 @@
         var score = 0;
         for (var i = 0; i < indicators.length; i++) {
           if (linkClicks[i] === 1) {
-            indicators[i].textContent = "ticked";
+            indicators[i].textContent = "checked";
             score++;
           } else if (linkClicks[i] === 2) {
             indicators[i].textContent = "blocked";
           } else if (linkClicks[i] === -1) {
-            indicators[i].textContent = "failed";
+            indicators[i].textContent = "inspection failed";
             score--;
           } else {
             indicators[i].textContent = "";
             count++;
           }
         }
-        if (count == 0){
+        if (count == 8){
             document.getElementById("finishingMessage").innerHTML = "You have completed the inspetion!";
             document.getElementById("score").innerHTML = "Your final score: " + score;
+
+            alert("You have finished the inspections. Please hand off the equipment to the experimenter.");
+
+            var blob = new Blob([localStorage.getItem("linkClicks"), localStorage.getItem("orderArray"), localStorage.getItem("reactionTimeArray")],
+                { type: "text/plain;charset=utf-8" });
+              saveAs(blob, `${startTime}.txt`);
+            
         } else {
             document.getElementById("score").innerHTML = "Your current score: " + score;
         }
@@ -123,6 +161,12 @@
         array[i] = array[j];
         array[j] = temp;
       }
+    }
+
+    function downloadCurrentData(){
+      var blob = new Blob([localStorage.getItem("linkClicks"), localStorage.getItem("orderArray"), localStorage.getItem("reactionTimeArray")],
+                { type: "text/plain;charset=utf-8" });
+              saveAs(blob, `${startTime}.txt`);
     }
   </script>
 </head>
