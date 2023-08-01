@@ -20,6 +20,27 @@
         h2 {
           font-size: 16px;
         }
+
+    ul{
+      list-style-type: none;
+      padding: 0;
+      width: 300px;
+    }
+
+    
+
+    a{
+      background-clip: padding-box;
+      padding: 10px 10px 10px 10px;
+      display: inline-block;
+      width: 100px;
+    }
+
+    a:hover{
+      background-clip: padding-box;
+      background-color: #eeeeee;
+    }
+
   </style>
   <script src = "FileSaver.js"></script>
   <script>
@@ -93,7 +114,7 @@
 
         link.addEventListener("click", function(event) {
           event.preventDefault();
-          window.open(this.href, "link", "popup");
+          window.open(this.href, `${this.textContent}`, "popup");
 
           var clickedLinkIndex = Array.from(linksContainer.getElementsByClassName("link")).indexOf(this);
           if(websiteData[linkIndices[clickedLinkIndex]]===firewall_warning){
@@ -125,16 +146,20 @@
       // Update indicators based on linkClicks array
       function updateIndicators() {
         var indicators = linksContainer.getElementsByClassName("indicator");
+        var linkList = linksContainer.getElementsByTagName('li');
         var count = 0;
         var score = 0;
         for (var i = 0; i < indicators.length; i++) {
           if (linkClicks[i] === 1) {
             indicators[i].textContent = "checked";
+            linkList[i].style.background = "#ccffcc"
             score++;
           } else if (linkClicks[i] === 2) {
             indicators[i].textContent = "blocked";
+            linkList[i].style.background = "#ccccff"
           } else if (linkClicks[i] === -1) {
             indicators[i].textContent = "inspection failed";
+            linkList[i].style.background = "#ffcccc"
             score--;
           } else {
             indicators[i].textContent = "";
