@@ -10,7 +10,7 @@ let currentAngle = 0;
 let previousFunctionalAngle = 0;
 let functionalAngle = 0;
 
-let snapThres = 10;
+let snapThres = 45;
 
 let validSpin = false;
 
@@ -36,7 +36,7 @@ function angleLimit(){
   if (currentAngle>maxAngle){
     if (previousFunctionalAngle == 0){
       functionalAngle = 0;
-    } else if (previousFunctionalAngle == maxAngle){
+    } else {
       functionalAngle = maxAngle;
     }
   } else {
@@ -149,7 +149,7 @@ function spin(event){
   dialAngle(functionalAngle);
   keyholeAngle(functionalAngle);
 
-  if (functionalAngle>maxAngle-2){
+  if (functionalAngle>maxAngle-5){
     
     dialIsOn = true;
     window.removeEventListener('touchmove', spin);
