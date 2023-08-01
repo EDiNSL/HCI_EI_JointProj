@@ -37,10 +37,10 @@
         firewall_warning,
         firewall_warning,
         firewall_warning,
-        firewall_warning,
+        "https://support.microsoft.com/",
         "https://www.microsoft.com/surface",
         "https://www.microsoft.com/windows",
-        "https://www.outlook.com",
+        "https://www.microsoft.com/en-us/store/",
         "https://www.skype.com",
         "https://github.com"
       ];
@@ -137,15 +137,18 @@
             count++;
           }
         }
-        if (count == 8){
+        if (count == 0){
             document.getElementById("finishingMessage").innerHTML = "You have completed the inspetion!";
             document.getElementById("score").innerHTML = "Your final score: " + score;
 
-            alert("You have finished the inspections. Please hand off the equipment to the experimenter.");
+            setTimeout(function(){
+              alert("You have finished the inspections. Please hand off the equipment to the experimenter.");
 
-            var blob = new Blob([localStorage.getItem("linkClicks"), localStorage.getItem("orderArray"), localStorage.getItem("reactionTimeArray")],
-                { type: "text/plain;charset=utf-8" });
-              saveAs(blob, `${startTime}.txt`);
+              var blob = new Blob([localStorage.getItem("linkClicks"), localStorage.getItem("orderArray"), localStorage.getItem("reactionTimeArray")],
+                  { type: "text/plain;charset=utf-8" });
+                saveAs(blob, `${startTime}.txt`);
+            }, 2000);
+            
             
         } else {
             document.getElementById("score").innerHTML = "Your current score: " + score;

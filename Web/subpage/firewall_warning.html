@@ -9,7 +9,7 @@
         }
         
         h1{
-            color: #ff9d00;
+            color: #b46f00;
         }
         
         button {
@@ -37,7 +37,7 @@
       </style>
 </head>
 <body>
-    <h1>Firewall Warning</h1>
+    <h1>Browser Warning</h1>
     <p id = "warningParagraph" class = "warning">This website may be harmful. Please turn on the firewall before proceeding. If the website is indeed harmful, your firewall will block it. Note that you have to proceed to finish inspecting this link. 
         If you choose not to proceed, you will receive a point penalty, and your task will be considered incomplete.</p>
     <h2>Have you turned on the firewall?</h2>
@@ -111,7 +111,7 @@
                 var d = new Date();
                 
                 reactionTime = d.getTime() - startTime;
-                alert(reactionTime);
+                //alert(reactionTime);
 
                 var rtArray = JSON.parse(localStorage.getItem("reactionTimeArray"));
                 rtArray[suspiciousIndex] = reactionTime;
