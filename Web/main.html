@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Yeetus</title>
+  <title>Yeetus Inc.</title>
   <style>
     .link {
       color: blue;
@@ -37,11 +37,11 @@
         firewall_warning,
         firewall_warning,
         firewall_warning,
-        "https://support.microsoft.com/",
-        "https://www.microsoft.com/surface",
-        "https://www.microsoft.com/windows",
-        "https://www.microsoft.com/en-us/store/",
-        "https://www.skype.com",
+        "https://xkcd.com/323/",
+        "https://xkcd.com/927/",
+        "https://hannahmontana.sourceforge.net",
+        "https://www.ooux.com",
+        "https://www.photopea.com",
         "https://github.com"
       ];
 
@@ -76,6 +76,7 @@
         link.textContent = "Link " + (i + 1);
         link.className = "link";
         link.target = "_blank"; // Open link in a new window
+
         listItem.appendChild(link);
 
         indicator.className = "indicator";
@@ -90,7 +91,10 @@
           }
         });
 
-        link.addEventListener("click", function() {
+        link.addEventListener("click", function(event) {
+          event.preventDefault();
+          window.open(this.href, "link", "popup");
+
           var clickedLinkIndex = Array.from(linksContainer.getElementsByClassName("link")).indexOf(this);
           if(websiteData[linkIndices[clickedLinkIndex]]===firewall_warning){
             
